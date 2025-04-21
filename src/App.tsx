@@ -3,6 +3,9 @@ import { useEffect, useRef } from 'react';
 import SingleViewContainer from './components/SingleViewContainer';
 
 const variants = {
+	initial: {
+		width: '1200px',
+	},
 	visible: {
 		width: '1200px',
 		transition: { duration: 1.5, delay: 0.6 },
@@ -45,6 +48,7 @@ function App() {
 					<motion.div
 						className='relative h-[600px]'
 						animate={isInView ? 'partlyVisible' : 'visible'}
+						initial='initial'
 						transition={{ type: 'spring', stiffness: 100, damping: 20 }}
 						variants={variants}
 					>
