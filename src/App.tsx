@@ -66,6 +66,7 @@ function Image({ isInview, direction }: { isInview: boolean; direction: 'left' |
 	return (
 		<motion.div
 			className='relative w-[200px] h-[600px] bg-sky-300'
+			initial='invisible'
 			animate={isInview ? 'visible' : 'invisible'}
 			variants={imagesVariants}
 		>
