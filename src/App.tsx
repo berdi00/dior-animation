@@ -5,6 +5,7 @@ import SingleViewContainer from './components/SingleViewContainer';
 const variants = {
 	visible: {
 		width: '1200px',
+		transition: { duration: 1.5, delay: 0.9 },
 	},
 	partlyVisible: {
 		width: '400px',
@@ -16,7 +17,7 @@ const imagesVariants = {
 		transform: `translateY(0%)`,
 		width: '400px',
 		opacity: 1,
-		transition: { duration: 1.5 },
+		transition: { duration: 1.5, delay: 0.5 },
 	},
 	invisible: {
 		transform: `translateY(100%)`,
