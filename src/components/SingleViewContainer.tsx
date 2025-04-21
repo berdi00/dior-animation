@@ -1,18 +1,18 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
-const variants = {
-	visible: {
-		width: '80%',
-	},
-	invisible: {
-		width: '100%',
-		transition: {
-			duration: 0.8,
-			ease: 'easeInOut',
-		},
-	},
-};
+// const variants = {
+// 	visible: {
+// 		width: '80%',
+// 	},
+// 	invisible: {
+// 		width: '100%',
+// 		transition: {
+// 			duration: 0.8,
+// 			ease: 'easeInOut',
+// 		},
+// 	},
+// };
 
 const SingleViewContainer = () => {
 	return (
@@ -26,21 +26,34 @@ const SingleViewContainer = () => {
 const ImageItem = ({ src }: { src: string }) => {
 	const ref = useRef(null);
 	// Trigger when half of the element is visible
-	const isInView = useInView(ref, {
-		margin: '-50% 0px -50% 0px', // Triggers when 50% of image is in view
+	// const isInView = useInView(ref, {
+	// 	margin: '-50% 0px -50% 0px', // Triggers when 50% of image is in view
+	// });
+
+	const { scrollYProgress } = useScroll({
+		target: ref,
+		offset: ['start end', 'start start'], // play with this
+	});
+
+	const rawSize = useTransform(scrollYProgress, [0, 1], ['85%', '100%']);
+	const smoothSize = useSpring(rawSize, {
+		stiffness: 100,
+		damping: 20,
 	});
 	return (
-		<motion.div
-			className='relative h-screen'
-			animate={isInView ? 'invisible' : 'visible'}
-			ref={ref}
-			variants={variants}
-		>
-			<img src={src} alt='image' className='w-full h-full object-cover' />
+		<div className='relative h-screen w-full flex justify-center items-center' ref={ref}>
+			<motion.div
+				style={{
+					height: smoothSize,
+					width: smoothSize,
+				}}
+			>
+				<img src={src} alt='image' className='object-cover w-full h-full' />
+			</motion.div>
 			<div className='absolute inset-0 flex items-center justify-center'>
 				<p className='text-white text-xl drop-shadow-lg font-semibold'>Beautiful Title</p>
 			</div>
-		</motion.div>
+		</div>
 	);
 };
 
